@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+BUILD_DIR=${1:-}
+export SHELL="*/bash"
+export PATH="/app/.foundry/bin:$PATH"
+echo "-----> Installing Foundry"
+
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+forge --version
+
+cp -r /app/.foundry $BUILD_DIR/.foundry
+
+PROFILE_PATH="$BUILD_DIR/.profile.d/foundry.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/.foundry/bin"' >> $PROFILE_PATH
